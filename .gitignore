@@ -1,0 +1,32 @@
+# Node.js - backend e frontend
+
+# Dependências
+node_modules/
+
+# Arquivos de ambiente (variáveis secretas)
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Pastas de build do Next.js (frontend)
+.next/
+out/
+
+# Mac OS
+.DS_Store
+
+# Editor VSCode
+.vscode/
+
+# arquivos de sistema
+Thumbs.db
+
+# Pasta de uploads, caso crie uma localmente
+uploads/
+
+# Outras pastas temporárias
+dist/
+build/
