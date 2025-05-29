@@ -50,4 +50,20 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// Create new delivery POST
+router.post('/new-delivery', async (req, res) => {
+  try {
+    const { clientName, address } = req.body;
+
+    const newDelivery = await Delivery.create({
+      clientName,
+      address,
+    });
+
+    res.status(201).json(newDelivery);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao criar entrega', error });
+  }
+})
+
 module.exports = router;

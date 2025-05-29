@@ -1,0 +1,24 @@
+{
+  "name": "delivery-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd back-end && npm run dev\" \"cd front-end && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelAlanAXL/delivery-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MichaelAlanAXL/delivery-system/issues"
+  },
+  "homepage": "https://github.com/MichaelAlanAXL/delivery-system#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
