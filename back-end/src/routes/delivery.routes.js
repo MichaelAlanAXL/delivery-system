@@ -22,4 +22,32 @@ router.post('/', async (req, res) => {
 	}
 });
 
+// Update status of a delivery
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  // Verifica se o status está dentro dos valores válidos do enum
+  const validStatuses = ['pending', 'in_progress', 'delivered'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({ error: 'Status inválido' });
+  }
+
+  try {
+    const updatedDelivery = await Delivery.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedDelivery) {
+      return res.status(404).json({ error: 'Entrega não encontrada' });
+    }
+
+    res.json(updatedDelivery);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
