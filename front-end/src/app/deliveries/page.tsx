@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type Pedido = {
   _id: string;
@@ -34,7 +35,16 @@ export default function Pedidos() {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Lista de Pedidos</h1>
+      <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold">Lista de Pedidos</h1>
+
+      <Link href="/deliveries/new-delivery">
+        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            + Nova Entrega
+        </button>
+      </Link>
+    </div>
+
       {pedidos.length === 0 ? (
         <p>Carregando...</p>
       ) : (
@@ -65,6 +75,20 @@ export default function Pedidos() {
               >
                 Finalizado
               </button>
+              <button  
+                onClick={() => {
+                  const confirmar = window.confirm(
+                    'Tem certeza que deseja CANCELAR este pedido?'
+                    );
+                  if (confirmar) {
+                    alterarStatus(pedido._id, 'cancelled');
+                  }
+                }}
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              >
+                Cancelar
+              </button>
+
             </div>
           </div>
         ))

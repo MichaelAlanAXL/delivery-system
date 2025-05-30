@@ -28,7 +28,7 @@ router.put('/:id', async (req, res) => {
   const { status } = req.body;
 
   // Verifica se o status está dentro dos valores válidos do enum
-  const validStatuses = ['pending', 'in_progress', 'delivered'];
+  const validStatuses = ['pending', 'in_progress', 'delivered', 'cancelled'];
   if (!validStatuses.includes(status)) {
     return res.status(400).json({ error: 'Status inválido' });
   }
