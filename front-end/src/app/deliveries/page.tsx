@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Header from '../Header';
 
 type Pedido = {
   _id: string;
@@ -34,6 +35,8 @@ export default function Pedidos() {
   };
 
   return (
+    <>
+      <Header />
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
       <h1 className="text-3xl font-bold">Lista de Pedidos</h1>
@@ -94,5 +97,6 @@ export default function Pedidos() {
         ))
       )}
     </div>
+    </>
   );
 }

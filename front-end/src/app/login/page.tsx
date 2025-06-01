@@ -8,13 +8,29 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Aqui você poderia verificar no backend, mas por enquanto é sem validação:
-    if (email && senha) {
-      router.push('/deliveries'); // Redireciona pra página de pedidos
+    try {
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: senha }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setError('');
+        router.push('/deliveries');
+      } else {
+        setError(data.message);
+      }
+
+    } catch (error) {
+      setError('Erro ao conectar com o servidor');
     }
   };
 
@@ -39,6 +55,9 @@ export default function Login() {
             className="w-full px-4 py-2 mb-6 border rounded-lg"
             required
           />
+          {error && (
+            <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+          )}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
