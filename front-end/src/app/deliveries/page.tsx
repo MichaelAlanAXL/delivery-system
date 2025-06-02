@@ -120,6 +120,12 @@ export default function Pedidos() {
                 Cancelar
               </button>
 
+              <Link href={`/deliveries/${pedido._id}`}>
+                <button className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded">
+                  + detalhes
+                </button>
+              </Link>
+
             </div>
           </div>
         ))

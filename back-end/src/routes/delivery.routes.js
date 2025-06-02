@@ -12,6 +12,21 @@ router.get('/', async (req, res) => {
 	}
 });
 
+// Get delivery by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const delivery = await Delivery.findById(req.params.id);
+    if (!delivery) {
+      return res.status(404).json({ error: 'Entraga não encontrada' });
+    }
+    res.json(delivery);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+
+  }
+});
+
 // Create delivery
 router.post('/', async (req, res) => {
 	try {
