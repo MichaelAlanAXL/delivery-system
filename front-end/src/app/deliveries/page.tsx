@@ -6,7 +6,7 @@ import Header from '../Header';
 
 type Pedido = {
   _id: string;
-  cliente: string;
+  clienteName: string;
   status: string;
 };
 
@@ -60,24 +60,47 @@ export default function Pedidos() {
             <p>Endereço: {pedido.address}</p>
             <p>Status: {pedido.status}</p>
             <div className="flex gap-2 mt-2">
+
+              {/* Em Preparo */}
               <button
                 onClick={() => alterarStatus(pedido._id, 'in_progress')}
-                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                disabled={pedido.status !== 'in_progress'} // desabilita caso contrário
+                className={`${
+                  pedido.status !== 'in_progress'
+                  ? 'bg-yellow-300 cursor-not-allowed'
+                  : 'bg-yellow-500 hover:bg-yellow-600'
+                } text-white px-3 py-1 rounded`}
               >
                 Em Preparo
               </button>
+
+              {/* Saiu para Entrega */}
               <button
                 onClick={() => alterarStatus(pedido._id, 'delivered')}
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                disabled={pedido.status === 'delivered' || pedido.status === 'cancelled' || pedido.status === 'finalizado'}
+                className={`${
+                  pedido.status === 'delivered' || pedido.status === 'cancelled' || pedido.status === 'finalizado'
+                  ? 'bg-blue-300 cursor-not-allowed'
+                  : 'bg-blue-500 hover:bg-blue-600'
+                } text-white px-3 py-1 rounded`}
               >
                 Saiu para Entrega
               </button>
+
+              {/* Finalizado */}
               <button
                 onClick={() => alterarStatus(pedido._id, 'delivered')}
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                disabled={pedido.status === 'cancelled' || pedido.status === 'finalizado'}
+                className={`${
+                  pedido.status === 'cancelled' || pedido.status === 'finalizado'
+                  ? 'bg-green-300 cursor-not-allowed'
+                  : 'bg-green-500 hover:bg-green-600'
+                } text-white px-3 py-1 rounded`}
               >
                 Finalizado
               </button>
+
+              { /* Cancelado */ }
               <button  
                 onClick={() => {
                   const confirmar = window.confirm(
@@ -87,7 +110,12 @@ export default function Pedidos() {
                     alterarStatus(pedido._id, 'cancelled');
                   }
                 }}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                disabled={pedido.status === 'cancelled' || pedido.status === 'finalizado' || pedido.status === 'delivered' }
+                className={`${
+                  pedido.status === 'cancelled' || pedido.status  === 'finalizado' || pedido.status === 'delivered'
+                  ? 'bg-red-300 cursor-not-allowed'
+                  : 'bg-red-500 hover:bg-red-600'
+                } text-white px-3 py-1 rounded`}
               >
                 Cancelar
               </button>
