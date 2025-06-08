@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Delivery = require('../models/Delivery'); //@
+const deliveryController = require('../controllers/delivery.controller');
+
+// rota para pesquisa/search
+router.get('/search', deliveryController.searchDeliveries);
 
 // Get all deliveries
 router.get('/', async (req, res) => {
@@ -43,7 +47,7 @@ router.put('/:id', async (req, res) => {
   const { status } = req.body;
 
   // Verifica se o status está dentro dos valores válidos do enum
-  const validStatuses = ['pending', 'in_progress', 'delivered', 'cancelled'];
+  const validStatuses = ['pending', 'in_progress', 'on_the_way', 'cancelled'];
   if (!validStatuses.includes(status)) {
     return res.status(400).json({ error: 'Status inválido' });
   }
@@ -79,6 +83,6 @@ router.post('/new-delivery', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erro ao criar entrega', error });
   }
-})
+});
 
 module.exports = router;

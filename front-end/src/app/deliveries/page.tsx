@@ -1,24 +1,44 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '../Header';
 
 type Pedido = {
   _id: string;
-  clienteName: string;
+  clientName: string;
+  address: string;
   status: string;
 };
 
 export default function Pedidos() {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
+  const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q');
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/deliveries')
-      .then((res) => res.json())
-      .then((data) => setPedidos(data))
-      .catch((err) => console.error(err));
-  }, []);
+    const fetchPedidos = async () => {
+      try {
+        setLoading(true);
+
+        const url = query
+          ? `http://localhost:5000/api/deliveries/search?q=${encodeURIComponent(query)}`
+          : `http://localhost:5000/api/deliveries`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        setPedidos(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPedidos();
+  }, [query]);
 
   const alterarStatus = (id: string, novoStatus: string) => {
     fetch(`http://localhost:5000/api/deliveries/${id}`, {
@@ -48,8 +68,10 @@ export default function Pedidos() {
       </Link>
     </div>
 
-      {pedidos.length === 0 ? (
+    {loading ? (
         <p>Carregando...</p>
+      ) : pedidos.length === 0 ? (
+        <p>Nenhum pedido encontrado.</p>
       ) : (
         pedidos.map((pedido) => (
           <div
@@ -76,7 +98,7 @@ export default function Pedidos() {
 
               {/* Saiu para Entrega */}
               <button
-                onClick={() => alterarStatus(pedido._id, 'delivered')}
+                onClick={() => alterarStatus(pedido._id, 'on_the_way')}
                 disabled={pedido.status === 'delivered' || pedido.status === 'cancelled' || pedido.status === 'finalizado'}
                 className={`${
                   pedido.status === 'delivered' || pedido.status === 'cancelled' || pedido.status === 'finalizado'

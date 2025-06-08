@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [userName, setUserName] = useState('Carregando...');
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter():
 
   useEffect(() => {
     fetch('http://localhost:5000/api/users/me')
@@ -18,7 +20,7 @@ export default function Header() {
 
   // Lógica para buscar no banco os pedidos retornados na busca
   const handleSearch = () => {
-    console.log('Buscar por:', searchTerm);
+    router.push(`/deliveries?q=${encodeURIComponent(searchTerm)}`);    
   };
 
   return (
